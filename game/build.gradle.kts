@@ -9,6 +9,7 @@ dependencies {
     implementation(project(":engine"))
     implementation(project(":cache"))
     implementation(project(":network"))
+    implementation(project(":metrics"))
     implementation(project(":types"))
     implementation(project(":yaml"))
     implementation(project(":config"))

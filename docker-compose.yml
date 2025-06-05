@@ -1,4 +1,5 @@
 version: "3.8"
+
 services:
   void:
     image: greghib/void
@@ -12,10 +13,12 @@ services:
       storage.database.jdbcUrl: jdbc:postgresql://db:5432/game?reWriteBatchedInserts=true
     ports:
       - "43594:43594"
+      - "8081:8081"
     depends_on:
       - db
     networks:
       - internal_network
+
   db:
     image: postgres:16.2-alpine3.19
     environment:
@@ -24,6 +27,32 @@ services:
       POSTGRES_PASSWORD: password
     networks:
       - internal_network
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - void
+    networks:
+      - internal_network
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - internal_network
+
+volumes:
+  grafana-storage:
+
 networks:
   internal_network:
     driver: bridge
