@@ -1,0 +1,30 @@
+package org.openrsx.protocol.login.protocol.visual
+
+import org.openrsx.protocol.login.protocol.visual.VisualMask.MOVEMENT_TYPE_MASK
+import org.openrsx.protocol.login.protocol.visual.VisualMask.TEMPORARY_MOVE_TYPE_MASK
+import org.openrsx.protocol.login.protocol.visual.update.player.Appearance
+import org.openrsx.protocol.login.protocol.visual.update.player.Body
+import org.openrsx.protocol.login.protocol.visual.update.player.MovementType
+import org.openrsx.protocol.login.protocol.visual.update.player.TemporaryMoveType
+
+class PlayerVisuals(
+    body: Body
+) : Visuals() {
+
+    val temporaryMoveType = TemporaryMoveType()
+    val appearance = Appearance(body = body)
+    val movementType = MovementType()
+
+    override fun reset() {
+        super.reset()
+        if (temporaryMoveType.needsReset()) {
+            flag(TEMPORARY_MOVE_TYPE_MASK)
+            temporaryMoveType.reset()
+        }
+        appearance.clear()
+        if (movementType.needsReset()) {
+            flag(MOVEMENT_TYPE_MASK)
+            movementType.reset()
+        }
+    }
+}

@@ -1,0 +1,41 @@
+package org.openrsx.protocol.login.protocol
+
+import org.openrsx.protocol.login.protocol.visual.*
+import org.openrsx.protocol.login.protocol.visual.encode.SayEncoder
+import org.openrsx.protocol.login.protocol.visual.encode.WatchEncoder
+import org.openrsx.protocol.login.protocol.visual.encode.npc.*
+import org.openrsx.protocol.login.protocol.visual.encode.player.*
+
+fun playerVisualEncoders() = castOf<PlayerVisuals>(
+    WatchEncoder(VisualMask.PLAYER_WATCH_MASK),
+    PlayerTimeBarEncoder(),
+    SayEncoder(VisualMask.PLAYER_SAY_MASK),
+    PlayerHitsEncoder(),
+    PlayerFaceEncoder(),
+    PlayerExactMovementEncoder(),
+    PlayerSecondaryGraphicEncoder(),
+    PlayerColourOverlayEncoder(),
+    TemporaryMoveTypeEncoder(),
+    PlayerPrimaryGraphicEncoder(),
+    PlayerAnimationEncoder(),
+    AppearanceEncoder(),
+    MovementTypeEncoder()
+)
+
+fun npcVisualEncoders() = castOf<NPCVisuals>(
+    TransformEncoder(),
+    NPCAnimationEncoder(),
+    NPCPrimaryGraphicEncoder(),
+    NPCFaceEncoder(),
+    NPCExactMovementEncoder(),
+    NPCColourOverlayEncoder(),
+    NPCHitsEncoder(),
+    WatchEncoder(VisualMask.NPC_WATCH_MASK),
+    SayEncoder(VisualMask.NPC_SAY_MASK),
+    NPCTimeBarEncoder(),
+    NPCSecondaryGraphicEncoder()
+)
+
+@Suppress("UNCHECKED_CAST")
+private fun <T : Visuals> castOf(vararg encoders: VisualEncoder<out Visuals>) = encoders
+    .map { it as VisualEncoder<T> }
