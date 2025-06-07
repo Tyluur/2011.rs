@@ -20,6 +20,7 @@ import content.entity.player.dialogue.type.statement
 
 playerSpawn(priority = true) { player ->
     player.message("Welcome to ${Settings["server.name"]}.", ChatType.Welcome)
+    player["wilderness_level"] = 1000 // Always set on login
     if (player.contains("creation")) {
         return@playerSpawn
     }

@@ -1,0 +1,4 @@
+[wilderness_level]
+id = 281
+format = "int"
+default = 1000
